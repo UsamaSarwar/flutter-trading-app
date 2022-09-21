@@ -1,1 +1,1 @@
-mv build/web/* docs/
+cp -r build/web/* docs/
