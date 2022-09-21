@@ -9009,11 +9009,12 @@ _.c=0},
 ap5(){return new A.tW(new A.Wv(),A.B(t.K,t.Qu))},
 GP:function GP(a,b){this.a=a
 this.b=b},
-uC:function uC(a,b,c,d){var _=this
+uC:function uC(a,b,c,d,e){var _=this
 _.e=a
-_.cy=b
-_.p2=c
-_.a=d},
+_.CW=b
+_.cy=c
+_.p2=d
+_.a=e},
 Wv:function Wv(){},
 Wy:function Wy(){},
 y1:function y1(a){var _=this
@@ -37401,14 +37402,15 @@ if(l==null)l=o.ay.b
 k.a.toString
 s=b==null?B.es:b
 return new A.vV(A.acI(new A.rs(o,s,B.T,B.af,j,j),l,n),j)},
-Qy(a){var s,r=this,q=null,p=r.a,o=p.cy
-o=o.fy
-s=o
+Qy(a){var s,r,q=this,p=null,o=q.a,n=o.cy
+n=n.fy
+s=n
 if(s==null)s=B.e4
-p=p.e
-o=r.gVH()
-r.a.toString
-return new A.x1(q,q,q,new A.a7i(),q,q,q,q,q,p,B.D5,q,q,B.AZ,r.gVM(),"",q,B.Gu,s,q,o,q,q,B.mA,!1,!1,!1,!1,r.gVp(),!1,q,q,q,!1,new A.kn(r,t.bT))},
+n=o.e
+o=o.CW
+r=q.gVH()
+q.a.toString
+return new A.x1(p,p,p,new A.a7i(),p,p,p,p,p,n,B.D5,p,p,B.AZ,q.gVM(),o,p,B.Gu,s,p,r,p,p,B.mA,!1,!1,!1,!1,q.gVp(),!1,p,p,p,!1,new A.kn(q,t.bT))},
 K(a){var s,r=null,q=A.Cw(!1,!1,this.Qy(a),r,r,r,r,!0,r,r,new A.a7j(),r,r)
 this.a.toString
 s=this.d
@@ -63980,7 +63982,7 @@ else{p=p.f.b
 p===$&&A.b()
 p=p.b
 p===$&&A.b()
-p=new A.e_(p,A.l(p).j("e_<1>"))}return new A.uC(new A.vU(new A.rC(B.Js,n,o,new A.KZ(r,r,1/0,56),r),A.eT(new A.wq(new A.a82(s),p,r,t.wu),r,r),r),q,!1,r)},
+p=new A.e_(p,A.l(p).j("e_<1>"))}return new A.uC(new A.vU(new A.rC(B.Js,n,o,new A.KZ(r,r,1/0,56),r),A.eT(new A.wq(new A.a82(s),p,r,t.wu),r,r),r),"Flutter Trading App",q,!1,r)},
 m(){var s=this.f
 if(s!=null)s.guD().cC(0)
 this.aM()},
