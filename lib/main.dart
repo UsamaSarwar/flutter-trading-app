@@ -115,7 +115,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: themeIsDark ? Colors.blueGrey[900]: Colors.amber,
-          title: const Text("Flutter Trading"),
+          title: const Text("Finance Trading Analytics"),
           actions: [
             IconButton(
               onPressed: () {
