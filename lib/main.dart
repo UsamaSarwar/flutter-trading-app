@@ -114,8 +114,10 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: themeIsDark ? Colors.blueGrey[900]: Colors.amber,
-          title: const Text("Finance Trading Analytics"),
+          backgroundColor: themeIsDark ? Colors.blueGrey[900] : Colors.amber,
+          title:  Text("Finance Trading Analytics", style: TextStyle(
+            color: themeIsDark ? Colors.white : Colors.black,
+          ),),
           actions: [
             IconButton(
               onPressed: () {
@@ -136,82 +138,265 @@ class _MyAppState extends State<MyApp> {
             stream: _channel == null ? null : _channel!.stream,
             builder: (context, snapshot) {
               updateCandlesFromSnapshot(snapshot);
-              return Candlesticks(
-                key: Key(currentSymbol + currentInterval),
-                indicators: indicators,
-                candles: candles,
-                onLoadMoreCandles: loadMoreCandles,
-                onRemoveIndicator: (String indicator) {
-                  setState(() {
-                    indicators = [...indicators];
-                    indicators
-                        .removeWhere((element) => element.name == indicator);
-                  });
-                },
-                actions: [
-                  ToolBarAction(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Center(
-                            child: Container(
-                              width: 200,
-                              color: Theme.of(context).backgroundColor,
-                              child: Wrap(
-                                children: intervals
-                                    .map((e) => Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: 50,
-                                            height: 30,
-                                            child: RawMaterialButton(
-                                              elevation: 0,
-                                              fillColor:
-                                                  const Color(0xFF494537),
-                                              onPressed: () {
-                                                fetchCandles(currentSymbol, e);
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text(
-                                                e,
-                                                style: const TextStyle(
-                                                  color: Color(0xFFF0B90A),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ))
-                                    .toList(),
+              return Column(
+                children: [
+                  Container(
+                    color: themeIsDark
+                        ? const Color(0xFF191B20)
+                        : Colors.white,
+                    height: 80,
+                    width: double.maxFinite,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (!snapshot.hasData)
+                            const Text(
+                              'Loading... ',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          if (snapshot.hasData)
+                            InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (context) {
+                                    return SymbolsSearchModal(
+                                      onSelect: (symbol) {
+                                        setState(() {
+                                          currentSymbol = symbol;
+                                          fetchCandles(symbol, currentInterval);
+                                        });
+                                      },
+                                      symbols: symbols,
+                                    );
+                                  },
+                                );
+                              },
+                              child: Text(
+                                currentSymbol,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
-                          );
-                        },
-                      );
-                    },
-                    child: Text(
-                      currentInterval,
+                          const SizedBox(width: 20),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                candles.isNotEmpty
+                                    ? candles.last.close.toStringAsFixed(2)
+                                    : "0.00",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: candles.isNotEmpty
+                                      ? candles.last.close >
+                                              candles[candles.length - 2].close
+                                          ? Colors.green
+                                          : Colors.red
+                                      : Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                "\$${candles.isNotEmpty ? candles.last.close.toStringAsFixed(2) : ""}",
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Open',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(candles.isNotEmpty
+                                  ? candles.last.open.toStringAsFixed(2)
+                                  : "0.00"),
+                            ],
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Close',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(candles.isNotEmpty
+                                  ? candles.last.close.toStringAsFixed(2)
+                                  : "0.00"),
+                            ],
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'High',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(candles.isNotEmpty
+                                  ? candles.last.high.toStringAsFixed(2)
+                                  : "0.00"),
+                            ],
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Low',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(candles.isNotEmpty
+                                  ? candles.last.low.toStringAsFixed(2)
+                                  : "0.00"),
+                            ],
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Change',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(candles.isNotEmpty
+                                  ? (candles.last.close - candles.last.open)
+                                      .toStringAsFixed(2)
+                                  : "0.00"),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  ToolBarAction(
-                    width: 100,
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return SymbolsSearchModal(
-                            symbols: symbols,
-                            onSelect: (value) {
-                              fetchCandles(value, currentInterval);
-                            },
-                          );
-                        },
-                      );
-                    },
-                    child: Text(
-                      currentSymbol,
+                  // Show Streaming data in json form
+                  // Text(snapshot.hasData ? '${snapshot.data}' : ''),
+                  const Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                  Expanded(
+                    child: Candlesticks(
+                      key: Key(currentSymbol + currentInterval),
+                      indicators: indicators,
+                      candles: candles,
+                      onLoadMoreCandles: loadMoreCandles,
+                      onRemoveIndicator: (String indicator) {
+                        setState(() {
+                          indicators = [...indicators];
+                          indicators.removeWhere(
+                              (element) => element.name == indicator);
+                        });
+                      },
+                      actions: [
+                        ToolBarAction(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                  child: Container(
+                                    width: 200,
+                                    color: Theme.of(context).backgroundColor,
+                                    child: Wrap(
+                                      children: intervals
+                                          .map((e) => Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: SizedBox(
+                                                  width: 50,
+                                                  height: 30,
+                                                  child: RawMaterialButton(
+                                                    elevation: 0,
+                                                    fillColor:
+                                                        const Color(0xFF494537),
+                                                    onPressed: () {
+                                                      fetchCandles(
+                                                          currentSymbol, e);
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text(
+                                                      e,
+                                                      style: const TextStyle(
+                                                        color:
+                                                            Color(0xFFF0B90A),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ))
+                                          .toList(),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Text(
+                            currentInterval,
+                          ),
+                        ),
+                        ToolBarAction(
+                          width: 100,
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SymbolsSearchModal(
+                                  symbols: symbols,
+                                  onSelect: (value) {
+                                    fetchCandles(value, currentInterval);
+                                  },
+                                );
+                              },
+                            );
+                          },
+                          child: Text(
+                            currentSymbol,
+                          ),
+                        )
+                      ],
                     ),
-                  )
+                  ),
                 ],
               );
             },
