@@ -32,8 +32,6 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  candlesticks: 
-    path: "./package/"
   http: ^0.13.3
   web_socket_channel: ^2.1.0
 

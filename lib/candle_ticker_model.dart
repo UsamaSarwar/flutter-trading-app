@@ -1,4 +1,4 @@
-import 'package:candlesticks/candlesticks.dart';
+import 'candlestick/models/candle.dart';
 
 class CandleTickerModel {
   final int eventTime;

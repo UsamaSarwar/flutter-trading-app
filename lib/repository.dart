@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:candlesticks/candlesticks.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/web_socket_channel.dart';
+
+import 'candlestick/models/candle.dart';
 
 class BinanceRepository {
   WebSocketChannel establishConnection(String symbol, String interval) {

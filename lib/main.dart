@@ -2,12 +2,17 @@
 
 import 'dart:convert';
 
-import 'package:candlesticks/candlesticks.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import './candle_ticker_model.dart';
+import './candlestick/candlesticks.dart';
 import './repository.dart';
+import 'candlestick/models/candle.dart';
+import 'candlestick/models/indicator.dart';
+import 'candlestick/utils/indicators/bollinger_bands_indicator.dart';
+import 'candlestick/utils/indicators/weighted_moving_average.dart';
+import 'candlestick/widgets/toolbar_action.dart';
 
 void main() {
   runApp(const MyApp());
@@ -115,9 +120,12 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: themeIsDark ? Colors.blueGrey[900] : Colors.amber,
-          title:  Text("Finance Trading Analytics", style: TextStyle(
-            color: themeIsDark ? Colors.white : Colors.black,
-          ),),
+          title: Text(
+            "Finance Trading Analytics",
+            style: TextStyle(
+              color: themeIsDark ? Colors.white : Colors.black,
+            ),
+          ),
           actions: [
             IconButton(
               onPressed: () {
@@ -141,9 +149,7 @@ class _MyAppState extends State<MyApp> {
               return Column(
                 children: [
                   Container(
-                    color: themeIsDark
-                        ? const Color(0xFF191B20)
-                        : Colors.white,
+                    color: themeIsDark ? const Color(0xFF191B20) : Colors.white,
                     height: 80,
                     width: double.maxFinite,
                     child: Padding(
